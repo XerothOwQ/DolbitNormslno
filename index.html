@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffb6d5">
+<title>Шакалилка</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <header>
+    <h1>Шакалилка <span class="sparkle">✿</span></h1>
+    <p class="sub">видео-ухудшатор · этап 1</p>
+  </header>
+
+  <!-- 1. Выбор видео -->
+  <section class="card" id="pickCard">
+    <label class="pick">
+      <input type="file" id="file" accept="video/*" hidden>
+      <span class="pickBtn">＋ Выбрать видео</span>
+    </label>
+    <div id="fileInfo" class="info" hidden></div>
+  </section>
+
+  <!-- 2. Параметры -->
+  <section class="card" id="params">
+    <h2>Видео</h2>
+    <div class="row">
+      <label for="res">Разрешение</label>
+      <select id="res">
+        <option value="0">Как в оригинале</option>
+        <option value="720">720p</option>
+        <option value="480">480p</option>
+        <option value="360">360p</option>
+        <option value="240" selected>240p</option>
+        <option value="144">144p</option>
+      </select>
+    </div>
+    <div class="row">
+      <label for="fps">Частота кадров <b id="fpsVal"></b></label>
+      <input type="range" id="fps" min="5" max="60" step="1" value="15">
+    </div>
+    <div class="row">
+      <label for="vbr">Битрейт видео <b id="vbrVal"></b></label>
+      <input type="range" id="vbr" min="0" max="100" step="1" value="25">
+    </div>
+    <h2>Аудио</h2>
+    <div class="row">
+      <label for="abr">Битрейт аудио <b id="abrVal"></b></label>
+      <select id="abr">
+        <option value="128">128 kbps</option>
+        <option value="64">64 kbps</option>
+        <option value="32" selected>32 kbps</option>
+        <option value="16">16 kbps</option>
+        <option value="8">8 kbps</option>
+      </select>
+    </div>
+  </section>
+
+  <button id="go" class="go" disabled>Ухудшить ✨</button>
+
+  <!-- 3. Прогресс -->
+  <section class="card" id="progressCard" hidden>
+    <div id="stage" class="info">…</div>
+    <div class="bar"><div id="barFill"></div></div>
+    <div id="eta" class="info small"></div>
+    <button id="cancel" class="ghost">Отмена</button>
+  </section>
+
+  <!-- 4. Результат -->
+  <section class="card" id="resultCard" hidden>
+    <h2>Готово! (｡•̀ᴗ-)✧</h2>
+    <video id="result" controls playsinline loop></video>
+    <div id="resultInfo" class="info small"></div>
+    <a id="download" class="go" download>Скачать</a>
+  </section>
+
+  <details class="card log">
+    <summary>Лог ffmpeg</summary>
+    <pre id="log"></pre>
+  </details>
+</main>
+<script type="module" src="app.js"></script>
+</body>
+</html>

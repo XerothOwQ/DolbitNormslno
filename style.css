@@ -1,0 +1,68 @@
+/* Этап 1: простая розовая тема. Полное аниме-оформление будет на этапе 5. */
+:root {
+  --bg: #fff0f6;
+  --card: #ffffff;
+  --pink: #ff8fc1;
+  --pink-deep: #e85a9b;
+  --pink-soft: #ffd6e8;
+  --text: #5a3a4a;
+  --muted: #a07a8c;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--bg);
+  background-image: radial-gradient(var(--pink-soft) 1.5px, transparent 1.5px);
+  background-size: 22px 22px;
+  color: var(--text);
+  font-family: system-ui, "Segoe UI", Roboto, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+main { max-width: 520px; margin: 0 auto; padding: 16px 16px 48px; }
+header { text-align: center; margin: 8px 0 16px; }
+h1 { margin: 0; font-size: 30px; color: var(--pink-deep); letter-spacing: .5px; }
+.sparkle { color: var(--pink); }
+.sub { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+h2 { font-size: 16px; margin: 4px 0 10px; color: var(--pink-deep); }
+.card {
+  background: var(--card);
+  border: 2px solid var(--pink-soft);
+  border-radius: 18px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 0 var(--pink-soft);
+}
+.pickBtn {
+  display: block; text-align: center; padding: 18px;
+  border: 2px dashed var(--pink); border-radius: 14px;
+  color: var(--pink-deep); font-weight: 700; font-size: 17px;
+}
+.info { margin-top: 10px; font-size: 14px; color: var(--text); word-break: break-word; }
+.small { font-size: 12px; color: var(--muted); }
+.row { margin-bottom: 14px; }
+.row label { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 6px; }
+.row b { color: var(--pink-deep); }
+select {
+  width: 100%; padding: 10px 12px; border-radius: 12px;
+  border: 2px solid var(--pink-soft); background: #fff; color: var(--text); font-size: 15px;
+}
+input[type=range] { width: 100%; accent-color: var(--pink-deep); }
+.go {
+  display: block; width: 100%; padding: 16px; margin-bottom: 14px;
+  border: 0; border-radius: 18px; text-align: center; text-decoration: none;
+  background: linear-gradient(180deg, var(--pink), var(--pink-deep));
+  color: #fff; font-size: 19px; font-weight: 800; letter-spacing: .5px;
+  box-shadow: 0 4px 0 #c2407e;
+}
+.go:active { transform: translateY(2px); box-shadow: 0 2px 0 #c2407e; }
+.go:disabled { opacity: .45; }
+.ghost {
+  margin-top: 10px; background: none; border: 2px solid var(--pink-soft);
+  color: var(--muted); border-radius: 12px; padding: 8px 14px; font-size: 14px;
+}
+.bar { height: 14px; background: var(--pink-soft); border-radius: 8px; overflow: hidden; margin-top: 8px; }
+#barFill { height: 100%; width: 0; background: var(--pink-deep); transition: width .2s; }
+video { width: 100%; border-radius: 12px; background: #000; margin-top: 4px; }
+#resultCard .go { margin: 12px 0 0; }
+.log summary { color: var(--muted); font-size: 13px; }
+.log pre { max-height: 240px; overflow: auto; font-size: 11px; white-space: pre-wrap; margin: 8px 0 0; }
