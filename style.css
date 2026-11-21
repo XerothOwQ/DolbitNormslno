@@ -118,3 +118,6 @@ video { width: 100%; background: #000; border: 1px solid var(--line); display: b
   background: var(--amber); color: var(--bg); text-shadow: none; box-shadow: var(--glow); }
 .dock .go:disabled { background: transparent; color: var(--amber); opacity: .4; }
 .dock .go:active:not(:disabled) { background: var(--amber-hi); }
+.btn[hidden] { display: none; }
+#install { margin-top: 10px; border-color: var(--amber); }
+#share { margin-top: 10px; }

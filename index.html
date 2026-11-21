@@ -6,6 +6,9 @@
 <meta name="theme-color" content="#0b0703">
 <title>Шакалилка</title>
 <link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
 </head>
 <body>
 <div class="crt"></div>
@@ -13,8 +16,9 @@
   <header>
     <div class="boot" id="boot"></div>
     <h1 class="logo">ШАКАЛИЛКА<span class="cur">_</span></h1>
-    <p class="sub">SHAKAL.EXE v0.2 // VIDEO DEGRADATION TERMINAL</p>
+    <p class="sub">SHAKAL.EXE v0.3 // VIDEO DEGRADATION TERMINAL</p>
     <p class="status" id="engine">&gt; ДВИЖОК: ожидание</p>
+    <button class="btn small" id="install" hidden>&gt; УСТАНОВИТЬ КАК ПРИЛОЖЕНИЕ</button>
   </header>
 
   <section class="win" id="pickWin">
@@ -47,6 +51,7 @@
     <video id="result" controls playsinline loop></video>
     <div id="resultInfo" class="info dim"></div>
     <a id="download" class="btn big" download>&gt; СКАЧАТЬ</a>
+    <button id="share" class="btn big" hidden>&gt; ПОДЕЛИТЬСЯ</button>
   </section>
 
   <details class="win log">

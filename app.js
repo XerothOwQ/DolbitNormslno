@@ -203,9 +203,9 @@ let inputFile = null;
 let src = null;
 let inputWritten = false;
 
-$('file').addEventListener('change', async (e) => {
-  const f = e.target.files[0];
-  if (!f) return;
+$('file').addEventListener('change', (e) => { if (e.target.files[0]) loadFile(e.target.files[0]); });
+
+async function loadFile(f) {
   inputFile = f;
   inputWritten = false;
   src = null;
@@ -223,7 +223,7 @@ $('file').addEventListener('change', async (e) => {
   } catch (err) {
     $('fileInfo').textContent = 'ОШИБКА: не удалось прочитать видео (' + (err.message || err) + ')';
   }
-});
+}
 
 async function writeInput(ff) {
   if (inputWritten) return;
@@ -332,6 +332,7 @@ $('cancel').addEventListener('click', () => {
 });
 
 let resultURL = null;
+let resultFile = null;
 function showResult(data, seconds, size) {
   if (resultURL) URL.revokeObjectURL(resultURL);
   const blob = new Blob([data.buffer], { type: 'video/mp4' });
@@ -339,10 +340,56 @@ function showResult(data, seconds, size) {
   $('result').src = resultURL;
   $('download').href = resultURL;
   const tag = (PRESETS.find((p) => p.id === activePreset)?.id) || 'custom';
-  $('download').download = `${inputFile.name.replace(/\.[^.]+$/, '')}_shakal_${tag}.mp4`;
+  const outName = `${inputFile.name.replace(/\.[^.]+$/, '')}_shakal_${tag}.mp4`;
+  $('download').download = outName;
+  resultFile = new File([blob], outName, { type: 'video/mp4' });
+  $('share').hidden = !(navigator.canShare && navigator.canShare({ files: [resultFile] }));
   $('resultInfo').textContent =
     `${(inputFile.size / 1048576).toFixed(1)} МБ -> ${(blob.size / 1048576).toFixed(2)} МБ // ` +
     `${size.outW}×${size.outH}${size.finW !== size.outW ? ' (растянуто до ' + size.finW + '×' + size.finH + ')' : ''} // ${fmt(seconds)}`;
   $('resultWin').hidden = false;
   $('resultWin').scrollIntoView({ behavior: 'smooth' });
 }
+
+// ---------- Поделиться результатом ----------
+$('share').addEventListener('click', async () => {
+  if (!resultFile) return;
+  try { await navigator.share({ files: [resultFile], title: 'Шакалилка' }); } catch {}
+});
+
+// ---------- Приложение (PWA) ----------
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch((e) => log('SW: ' + e));
+}
+
+// Кнопка «Установить» (Chrome на Андроиде)
+let installEvent = null;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  installEvent = e;
+  $('install').hidden = false;
+});
+$('install').addEventListener('click', async () => {
+  if (!installEvent) return;
+  installEvent.prompt();
+  await installEvent.userChoice.catch(() => {});
+  installEvent = null;
+  $('install').hidden = true;
+});
+window.addEventListener('appinstalled', () => { $('install').hidden = true; });
+
+// Видео, присланное через «Поделиться → Шакалилка»
+(async () => {
+  const params = new URLSearchParams(location.search);
+  if (!params.has('shared') || !('caches' in window)) return;
+  history.replaceState(null, '', location.pathname);
+  try {
+    const cache = await caches.open('shakal-share');
+    const res = await cache.match('shared-video');
+    if (!res) return;
+    const blob = await res.blob();
+    const name = decodeURIComponent(res.headers.get('x-name') || 'video.mp4');
+    await cache.delete('shared-video');
+    loadFile(new File([blob], name, { type: blob.type || 'video/mp4' }));
+  } catch (e) { log('share: ' + e); }
+})();
